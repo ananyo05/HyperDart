@@ -1,0 +1,65 @@
+{
+  "title": "Holiday Calendar",
+  "description": "Provides information about public, school, and bank holidays in various countries, supports holiday check queries, and computes working days.",
+  "componentScope": {
+    "supportedIntents": [
+      {
+        "intent": "holiday-search",
+        "description": "Queries requesting list of holidays for a country, checks for holidays on a specific date, or lists holidays for a specific month.",
+        "example": [
+          "Holidays in USA 2026",
+          "Public holidays in UK 2026",
+          "Holidays in Japan July 2026",
+          "Is July 4 a holiday in USA 2026",
+          "Is December 25 a holiday in UK 2026",
+          "Show holidays in Canada August",
+          "Holidays in the US next month",
+          "Holidays in South Africa 2026"
+        ]
+      }
+    ]
+  },
+  "schema": {
+    "$defs": {
+      "country": {
+        "type": "string",
+        "description": "Name or ISO 2-letter country code."
+      },
+      "year": {
+        "type": "number",
+        "description": "Explicit 4-digit year."
+      },
+      "month": {
+        "type": "string",
+        "description": "Name or index of the month."
+      },
+      "date": {
+        "type": "string",
+        "description": "Specific date queried."
+      }
+    },
+    "type": "object",
+    "description": "Main query object defining the holiday request.",
+    "properties": {
+      "type": {
+        "type": "string",
+        "description": "Kind of request: 'list' to retrieve holidays or 'query' for filtered data."
+      },
+      "filters": {
+        "type": "object",
+        "description": "Filters to narrow down holidays by country, year, month, or date.",
+        "properties": {
+          "country": { "$ref": "#/$defs/country" },
+          "year": { "$ref": "#/$defs/year" },
+          "month": { "$ref": "#/$defs/month" },
+          "date": { "$ref": "#/$defs/date" }
+        },
+        "additionalProperties": true
+      },
+      "entities": {
+        "collections": ["HD_LOCATION"]
+      }
+    },
+    "required": ["type", "filters", "entities"]
+  }
+}
